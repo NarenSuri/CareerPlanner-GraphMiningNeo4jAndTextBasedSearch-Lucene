@@ -1,0 +1,406 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>CareerAdvising</title>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+<h:body>
+
+
+
+	<h:outputStylesheet library="css" name="style.css" />
+
+
+
+	<h:form id="form">
+		<p:outputLabel styleClass="searchQueryDisplay"
+			value="query you searched For  :    "></p:outputLabel>
+		<p:inputText style="width: 60%;" required="true"
+			value="#{designVersionThreePanelManagedBean.query}">
+			<f:validateLength minimum="4" />
+		</p:inputText>
+		
+				<p:outputLabel styleClass="coursestaken"
+			value="# of Courses Selected Already :    "></p:outputLabel>
+			font-size: 250%;
+			<p:outputLabel styleClass="coursestakennumber"
+			value="#{designVersionThreePanelManagedBean.maxAllowedCoursesToChooseDefaultVal}"></p:outputLabel>
+
+		
+		<p:separator />
+		<h:outputLabel id="dec" styleClass="titles"
+			value="Choose Only #{designVersionThreePanelManagedBean.maxAllowedCoursesToChoose} Courses From this list and plan your Goal Oriented Learning... " />
+
+		<p:separator />
+
+
+
+		<p:panelGrid columns="2" id="UserUI">
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.selectAmongRelevantCoursesVeryRelev}"
+				var="MoocUnivqueryresultHighRelHigh" id="MoocResult" columns="1"
+				layout="grid" position="center" rows="20" >
+				<f:facet name="header">
+					<h:outputText styleClass="searchQueryDisplay"
+						value="Highly Relevant Courses Those Rated 5 By You..." />
+				</f:facet>
+
+
+				<p:panel>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+											
+						<h:outputText styleClass="moocUnivTitles"
+							value="#{MoocUnivqueryresultHighRelHigh.courseTitle}" />
+							
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">							
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultHighRelHigh}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="2" cellpadding="2">
+						<h:outputText
+							value="#{MoocUnivqueryresultHighRelHigh.courseDescriptionShort}"
+							styleClass="abc; margin:10 auto; display:block;width:500px" />
+						
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultHighRelHigh}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>						
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+						<h:outputText value="Will You take this Course ?" />
+						
+						<h:selectOneMenu
+							id="moocRelevancyHigh_#{MoocUnivqueryresultHighRelHigh.coursmatchedforjob}_matchedindex_#{MoocUnivqueryresultHighRelHigh.matchedindex}"
+							value="#{MoocUnivqueryresultHighRelHigh.willUtakejob}" disabled="#{!MoocUnivqueryresultHighRelHigh.isVisible}">
+							<f:selectItems
+								value="#{MoocUnivqueryresultHighRelHigh.willyoutakeit}" />
+							<p:ajax event="valueChange"
+								listener="#{designVersionThreePanelManagedBean.submitSelectedAmongRelCourses(MoocUnivqueryresultHighRelHigh.matchedindex,MoocUnivqueryresultHighRelHigh.coursmatchedforjob,MoocUnivqueryresultHighRelHigh.objType)}"
+								execute="@this" render="@all" update="messageRelevancy" />
+
+						</h:selectOneMenu>
+
+						<p:growl id="messageRelevancy" showDetail="true"></p:growl>
+
+
+					</h:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+			<p:dialog header="Detailed Info" widgetVar="MoocDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="MoocDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}"
+						columnClasses="label,value">
+
+						<h:outputText value="CourseName:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseTitle}" />
+
+						<h:outputText value="CourseDesc:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:panelGrid>
+		<p:separator />
+				<p:panelGrid columns="2" id="UserUIMostly">
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.selectAmongRelevantCoursesMostlyRelev}"
+				var="MoocUnivqueryresultMostlyRelMostly" id="MoocResultMostly" columns="1"
+				layout="grid" position="center" rows="20" >
+				<f:facet name="header">
+					<h:outputText styleClass="searchQueryDisplay"
+						value="Mostly Relevant Courses Those Rated 4 By You..." />
+				</f:facet>
+
+
+				<p:panel>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+											
+						<h:outputText styleClass="moocUnivTitles"
+							value="#{MoocUnivqueryresultMostlyRelMostly.courseTitle}" />
+							
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">							
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultMostlyRelMostly}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="2" cellpadding="2">
+						<h:outputText
+							value="#{MoocUnivqueryresultMostlyRelMostly.courseDescriptionShort}"
+							styleClass="abc; margin:10 auto; display:block;width:500px" />
+						
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultMostlyRelMostly}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>						
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+						<h:outputText value="Will You take this Course ?" />
+						
+						<h:selectOneMenu
+							id="moocRelevancyMostly_#{MoocUnivqueryresultMostlyRelMostly.coursmatchedforjob}_matchedindex_#{MoocUnivqueryresultMostlyRelMostly.matchedindex}"
+							value="#{MoocUnivqueryresultMostlyRelMostly.willUtakejob}" disabled="#{!MoocUnivqueryresultMostlyRelMostly.isVisible}">
+							<f:selectItems
+								value="#{MoocUnivqueryresultMostlyRelMostly.willyoutakeit}" />
+							<p:ajax event="valueChange"
+								listener="#{designVersionThreePanelManagedBean.submitSelectedAmongRelCourses(MoocUnivqueryresultMostlyRelMostly.matchedindex,MoocUnivqueryresultMostlyRelMostly.coursmatchedforjob,MoocUnivqueryresultMostlyRelMostly.objType)}"
+								execute="@this" render="@all" update="messageRelevancyMostly" />
+
+						</h:selectOneMenu>
+
+						<p:growl id="messageRelevancyMostly" showDetail="true"></p:growl>
+
+
+					</h:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+			<p:dialog header="Detailed Info" widgetVar="MoocDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="MoocDetailMostly" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}"
+						columnClasses="label,value">
+
+						<h:outputText value="CourseName:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseTitle}" />
+
+						<h:outputText value="CourseDesc:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:panelGrid>
+		
+		<p:panelGrid columns="2" id="UserUIModerate">
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.selectAmongRelevantCoursesModeratelyRelev}"
+				var="MoocUnivqueryresultModerateRelModerate" id="MoocResultModerate" columns="1"
+				layout="grid" position="center" rows="20" >
+				<f:facet name="header">
+					<h:outputText styleClass="searchQueryDisplay"
+						value="Moderately Relevant Courses Those Rated 3 By You..." />
+				</f:facet>
+
+
+				<p:panel>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+											
+						<h:outputText styleClass="moocUnivTitles"
+							value="#{MoocUnivqueryresultModerateRelModerate.courseTitle}" />
+							
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">							
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultModerateRelModerate}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="2" cellpadding="2">
+						<h:outputText
+							value="#{MoocUnivqueryresultModerateRelModerate.courseDescriptionShort}"
+							styleClass="abc; margin:10 auto; display:block;width:500px" />
+						
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultModerateRelModerate}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>						
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+						<h:outputText value="Will You take this Course ?" />
+						
+						<h:selectOneMenu
+							id="moocRelevancyModerate_#{MoocUnivqueryresultModerateRelModerate.coursmatchedforjob}_matchedindex_#{MoocUnivqueryresultModerateRelModerate.matchedindex}"
+							value="#{MoocUnivqueryresultModerateRelModerate.willUtakejob}" disabled="#{!MoocUnivqueryresultModerateRelModerate.isVisible}">
+							<f:selectItems
+								value="#{MoocUnivqueryresultModerateRelModerate.willyoutakeit}" />
+							<p:ajax event="valueChange"
+								listener="#{designVersionThreePanelManagedBean.submitSelectedAmongRelCourses(MoocUnivqueryresultModerateRelModerate.matchedindex,MoocUnivqueryresultModerateRelModerate.coursmatchedforjob,MoocUnivqueryresultModerateRelModerate.objType)}"
+								execute="@this" render="@all" update="messageRelevancyModerate" />
+
+						</h:selectOneMenu>
+
+						<p:growl id="messageRelevancyModerate" showDetail="true"></p:growl>
+
+
+					</h:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+			<p:dialog header="Detailed Info" widgetVar="MoocDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="MoocDetailModerate" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}"
+						columnClasses="label,value">
+
+						<h:outputText value="CourseName:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseTitle}" />
+
+						<h:outputText value="CourseDesc:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:panelGrid>
+		<p:separator />
+		
+		
+		<p:panelGrid columns="2" id="UserUIJustFewWords">
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.selectAmongRelevantCoursesJustFewWords}"
+				var="MoocUnivqueryresultJustFewWordsRelJustFewWords" id="MoocResultJustFewWords" columns="1"
+				layout="grid" position="center" rows="20">
+				<f:facet name="header">
+					<h:outputText styleClass="searchQueryDisplay"
+						value="Just Matched Courses Those Rated 2 By You..." />
+				</f:facet>
+
+
+				<p:panel>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+											
+						<h:outputText styleClass="moocUnivTitles"
+							value="#{MoocUnivqueryresultJustFewWordsRelJustFewWords.courseTitle}" />
+							
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">							
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultJustFewWordsRelJustFewWords}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="2" cellpadding="2">
+						<h:outputText
+							value="#{MoocUnivqueryresultJustFewWordsRelJustFewWords.courseDescriptionShort}"
+							styleClass="abc; margin:10 auto; display:block;width:500px" />
+						
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{MoocUnivqueryresultJustFewWordsRelJustFewWords}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>						
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="3" cellpadding="2">
+						<h:outputText value="Will You take this Course ?" />
+						
+						<h:selectOneMenu
+							id="moocRelevancyJustFewWords_#{MoocUnivqueryresultJustFewWordsRelJustFewWords.coursmatchedforjob}_matchedindex_#{MoocUnivqueryresultJustFewWordsRelJustFewWords.matchedindex}"
+							value="#{MoocUnivqueryresultJustFewWordsRelJustFewWords.willUtakejob}" disabled="#{!MoocUnivqueryresultJustFewWordsRelJustFewWords.isVisible}">
+							<f:selectItems
+								value="#{MoocUnivqueryresultJustFewWordsRelJustFewWords.willyoutakeit}" />
+							<p:ajax event="valueChange"
+								listener="#{designVersionThreePanelManagedBean.submitSelectedAmongRelCourses(MoocUnivqueryresultJustFewWordsRelJustFewWords.matchedindex,MoocUnivqueryresultJustFewWordsRelJustFewWords.coursmatchedforjob,MoocUnivqueryresultJustFewWordsRelJustFewWords.objType)}"
+								execute="@this" render="@all" update="messageRelevancyJustFewWords" />
+
+						</h:selectOneMenu>
+
+						<p:growl id="messageRelevancyJustFewWords" showDetail="true"></p:growl>
+
+
+					</h:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+			<p:dialog header="Detailed Info" widgetVar="MoocDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="MoocDetailJustFewWords" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}"
+						columnClasses="label,value">
+
+						<h:outputText value="CourseName:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseTitle}" />
+
+						<h:outputText value="CourseDesc:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:panelGrid>
+		<p:separator />
+		
+		
+		
+		
+		<p:separator />
+
+		<p:commandButton
+			actionListener="#{designVersionThreePanelManagedBean.finalResults()}"
+			value="Finish->" title="More Courses..." styleClass="nextbutton"  />
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>CareerAdvising</title>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+
+<h:form id="form">
+	<p:panel style="margin-top:20%;margin-left:10px;margin-right:10px;"
+		id="searchpanel">
+		<p:outputLabel value="query:    "></p:outputLabel>
+		<p:inputText style="width: 70%;" required="true"
+			value="#{panelManagedBean.query}">
+			<f:validateLength minimum="4" />
+		</p:inputText>
+
+		<p:growl id="growl" />
+		<p:commandButton value="Search" action="#{panelManagedBean.search()}"
+			onclick="PF('pbAjax').start();PF('startButton2').disable();"
+			widgetVar="startButton2"></p:commandButton>
+
+		<p:commandButton value="Cancel"
+			actionListener="#{panelManagedBean.cancel}"
+			oncomplete="PF('pbAjax').cancel();PF('startButton2').enable();" />
+		<br />
+		<br />
+
+		<p:progressBar widgetVar="pbAjax" ajax="true"
+			value="#{panelManagedBean.progress}" labelTemplate="{value}%"
+			styleClass="animated" global="false">
+			<p:ajax event="complete" listener="#{panelManagedBean.onComplete}"
+				update="growl" oncomplete="PF('startButton2').enable()" />
+		</p:progressBar>
+
+	</p:panel>
+
+
+	<p:panelGrid columns="5" id="UserQueryUIPanel" position="center">
+		<p:panel>
+			<p:outputLabel value="jobFields:"></p:outputLabel>
+			<p:selectCheckboxMenu
+				value="#{panelManagedBean.selectedjobFieldsToSearchOn}"
+				filter="true">
+				<f:selectItems value="#{panelManagedBean.jobFieldsToSearchOn}"
+					var="jobFieldsToSearch" itemLabel="#{jobFieldsToSearch}"
+					itemValue="#{jobFieldsToSearch}"></f:selectItems>
+			</p:selectCheckboxMenu>
+		</p:panel>
+		<p:panel>
+			<p:outputLabel value="MoocFields:"></p:outputLabel>
+			<p:selectCheckboxMenu
+				value="#{panelManagedBean.selectedmoocFieldsToSearchOn}"
+				filter="true">
+				<f:selectItems value="#{panelManagedBean.moocFieldsToSearchOn}"
+					var="moocFieldsToSearchOn" itemLabel="#{moocFieldsToSearch}"
+					itemValue="#{moocFieldsToSearch}"></f:selectItems>
+			</p:selectCheckboxMenu>
+		</p:panel>
+		<p:panel>
+			<p:outputLabel value="CourseFields:"></p:outputLabel>
+			<p:selectCheckboxMenu
+				value="#{panelManagedBean.selectedunivFieldsToSearchOn}"
+				filter="true">
+				<f:selectItems value="#{panelManagedBean.univFieldsToSearchOn}"
+					var="univFieldsToSearch" itemLabel="#{univFieldsToSearch}"
+					itemValue="#{univFieldsToSearch}"></f:selectItems>
+			</p:selectCheckboxMenu>
+		</p:panel>
+		<p:panel>
+			<p:outputLabel value="slop:"></p:outputLabel>
+			<p:selectBooleanButton offLabel="Off" onLabel="On"
+				value="#{panelManagedBean.slopmode}"></p:selectBooleanButton>
+		</p:panel>
+
+	</p:panelGrid>
+
+</h:form>
+
+
+<style tyle="text/css">
+.animated .ui-progressbar-value {
+	background-image:
+		url("/showcase/javax.faces.resource/demo/images/pbar-ani.gif.xhtml");
+}
+</style>
+
+<script type="text/javascript">
+	function start() {
+		PF('startButton2').disable();
+
+		window['progress'] = setInterval(
+				function() {
+					var pbClient = PF('pbClient'), oldValue = pbClient
+							.getValue(), newValue = oldValue + 10;
+
+					pbClient.setValue(pbClient.getValue() + 10);
+
+					if (newValue === 100) {
+						clearInterval(window['progress']);
+					}
+
+				}, 1000);
+	}
+
+	function cancel() {
+		clearInterval(window['progress']);
+		PF('pbClient').setValue(0);
+		PF('startButton2').enable();
+	}
+</script>
+</html>

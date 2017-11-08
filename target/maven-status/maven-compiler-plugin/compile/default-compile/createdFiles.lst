@@ -1,0 +1,16 @@
+jsf\career\planner\CombineBoolenQuery.class
+jsf\career\planner\LuceneSearchUserFeedback.class
+jsf\career\planner\JobInfoDisplayTemplate.class
+jsf\career\planner\SelectRelevancy.class
+jsf\career\planner\PanelManagedBean.class
+jsf\career\planner\StarterSearch.class
+jsf\career\planner\DesignVersionThreePanelManagedBean.class
+jsf\career\planner\GenQueue.class
+jsf\career\planner\MoocInfoDisplayTemplate.class
+jsf\career\planner\ParentOfAllinfoDisplayTemplates.class
+jsf\career\planner\SearchMoocInfo.class
+jsf\career\planner\JobDataSearching.class
+jsf\career\planner\UnivInfoDisplayTemplate.class
+jsf\career\planner\UnivCourseInfoSearcher.class
+jsf\career\planner\SelectOneMenu.class
+jsf\career\planner\KnowLoggerLoc.class

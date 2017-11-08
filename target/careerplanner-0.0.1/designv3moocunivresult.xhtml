@@ -1,0 +1,158 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>CareerAdvising</title>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+
+<h:body>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:form id="form">
+		<p:outputLabel styleClass="searchQueryDisplay"
+			value="query you searched For  :    "></p:outputLabel>
+		<p:inputText style="width: 70%;" required="true"
+			value="#{designVersionThreePanelManagedBean.query}">
+			<f:validateLength minimum="4" />
+		</p:inputText>
+		<p:separator />
+
+		<p:panel>
+
+			<h:panelGrid columns="6" cellpadding="5">
+				<h:outputText value="Follow these Buttons :"
+					style="font-weight: bold" />
+				<h:commandButton value="Back to Jobs List"
+					action="designv3jobresults?faces-redirect=true" />
+				<h:commandButton value="Select Here the Courses relevent to You"
+					action="designv3moocunivresult?faces-redirect=true" />
+				<p:commandButton
+					actionListener="#{designVersionThreePanelManagedBean.loadchooseAmongRelevantCourses()}"
+					value="Plan your Course Schedule" title="Plan your course schedule" />
+				<p:commandButton
+					actionListener="#{designVersionThreePanelManagedBean.loadchoosenFinalCourses()}"
+					value="Your plan.." title="Your Final Results" />
+
+			</h:panelGrid>
+		</p:panel>
+
+
+		<p:separator />
+
+		<p:outputPanel id="moocUnivDetail" style="text-align:center;">
+			<p:panelGrid columns="2"
+				rendered="#{not empty designVersionThreePanelManagedBean.selectedjobforMoocUniv}"
+				columnClasses="label,value">
+				<h:outputText value="jobtitle:" style="font-weight: bold" />
+				<h:outputText
+					value="#{designVersionThreePanelManagedBean.selectedjobforMoocUniv.jobtitle}" />
+			</p:panelGrid>
+		</p:outputPanel>
+
+
+		<p:separator />
+
+
+		<p:panelGrid columns="2" id="UserUI">
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.rndmSndwichResltsofMoocUniv}"
+				var="MoocUnivqueryresult" id="MoocResult" columns="1" layout="grid"
+				position="center" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+				<f:facet name="header" styleClass="careerGoalHeader"
+					value=" Your Career Goal is : #{designVersionThreePanelManagedBean.selectedjobforMoocUniv.jobtitle} at - #{designVersionThreePanelManagedBean.selectedjobforMoocUniv.companyName}">
+
+				</f:facet>
+
+				<p:panel>
+					<h:panelGrid columns="3" cellpadding="2">
+
+						<h:outputText value=" " />
+						<h:outputText styleClass="moocUnivTitles" value="#{MoocUnivqueryresult.courseTitle}" />
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{MoocUnivqueryresult}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+					</h:panelGrid>
+					<h:panelGrid columns="2" cellpadding="2">
+						<h:outputText
+							value="#{MoocUnivqueryresult.courseDescriptionShort}"
+							styleClass="abc; margin:10 auto; display:block;width:500px" />
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{MoocUnivqueryresult}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+					</h:panelGrid>
+					<h:panelGrid columns="3" cellpadding="2">
+						<h:outputText value="How Relevat ?" />
+						<p:selectOneMenu
+							id="moocRelevancy_#{MoocUnivqueryresult.coursmatchedforjob}_#{MoocUnivqueryresult.matchedindex}"
+							value="#{MoocUnivqueryresult.selectedValue}">
+							<f:selectItems value="#{MoocUnivqueryresult.relevancymatch}" />
+						</p:selectOneMenu>
+
+						<p:commandButton value="Submit"
+							action="#{designVersionThreePanelManagedBean.submitMoocUnivRelevancy(MoocUnivqueryresult.matchedindex,MoocUnivqueryresult.coursmatchedforjob,MoocUnivqueryresult.objType)}"
+							update="messageRelevancy"></p:commandButton>
+
+						<p:growl id="messageRelevancy" showDetail="true"
+							></p:growl>
+
+
+					</h:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+			<p:dialog header="Detailed Info" widgetVar="MoocDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="MoocDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}"
+						columnClasses="label,value">
+
+						<h:outputText value="CourseName:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseTitle}" />
+
+						<h:outputText value="CourseDesc:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:panelGrid>
+		<p:separator />
+
+		<p:panel>
+
+			<h:panelGrid columns="6" cellpadding="5">
+				<h:outputText value="Follow these Buttons :"
+					style="font-weight: bold" />
+				<h:commandButton value="Back to Jobs List"
+					action="designv3jobresults?faces-redirect=true" />
+				<h:commandButton value="Select Here the Courses relevent to You"
+					action="designv3moocunivresult?faces-redirect=true" />
+				<p:commandButton
+					actionListener="#{designVersionThreePanelManagedBean.loadchooseAmongRelevantCourses()}"
+					value="Plan your Course Schedule" title="Plan your course schedule" />
+				<p:commandButton
+					actionListener="#{designVersionThreePanelManagedBean.loadchoosenFinalCourses()}"
+					value="Your plan.." title="Your Final Results" />
+
+			</h:panelGrid>
+		</p:panel>
+
+	</h:form>
+</h:body>
+</html>

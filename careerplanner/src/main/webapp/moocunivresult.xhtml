@@ -1,0 +1,213 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>CareerAdvising</title>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+<h:form id="form">
+		<p:outputLabel value="query you searched For  :    "></p:outputLabel>
+	<p:inputText style="width: 70%;" required="true"
+		value="#{panelManagedBean.query}">
+		<f:validateLength minimum="4" />
+	</p:inputText>
+	
+			<p:outputPanel id="moocUnivDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty panelManagedBean.selectedjobforMoocUniv}"
+					columnClasses="label,value">
+					<h:outputText value="JobId" style="font-weight: bold" />
+					<h:outputText value="#{panelManagedBean.selectedjobforMoocUniv.jobId}" />
+
+					<h:outputText value="jobtitle:" style="font-weight: bold" />
+					<h:outputText value="#{panelManagedBean.selectedjobforMoocUniv.jobtitle}" />
+
+					<h:outputText value="jobDescription:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedjobforMoocUniv.jobDescription}" />
+				</p:panelGrid>
+			</p:outputPanel>
+
+	<p:panelGrid columns="4" id="UserUI">
+		<p:dataGrid value="#{panelManagedBean.finalconcatmooc}"
+			var="Moocqueryresult" id="MoocResult" columns="1" layout="grid"
+			rows="3" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="2,5,8">
+			<f:facet name="header">
+            Matched Mooc Info ( Job# - Mooc# - Mooc Details)
+        </f:facet>
+
+			<p:panel>
+				<h:panelGrid columns="3" cellpadding="2">
+
+					<h:outputText
+						value="Job #{Moocqueryresult.coursmatchedforjob} - Mooc #{Moocqueryresult.matchedindex}" />
+					<h:outputText value="#{Moocqueryresult.courseTitle}" />
+					<p:commandLink update=":form:MoocDetail"
+						oncomplete="PF('MoocDialog').show()"
+						title="Detailed Mooc Info Here">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:setPropertyActionListener value="#{Moocqueryresult}"
+							target="#{panelManagedBean.selectedMooc}" />
+					</p:commandLink>
+
+					<h:outputText value="How Relevat ?" />
+					<p:selectOneMenu
+						id="moocRelevancy_#{Moocqueryresult.coursmatchedforjob}_#{Moocqueryresult.matchedindex}"
+						value="#{Moocqueryresult.selectedValue}">
+						<f:selectItems value="#{Moocqueryresult.relevancymatch}" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Submit"
+						action="#{panelManagedBean.submitMoocRelevancy(Moocqueryresult.matchedindex)}"
+						update="messageRelevancy"></p:commandButton>
+
+
+					<h:outputText value="Will U Take?" />
+					<p:selectOneMenu
+						id="jobWillYouTake_#{Moocqueryresult.coursmatchedforjob}_#{Moocqueryresult.matchedindex}"
+						value="#{Moocqueryresult.willUtakejob}">
+						<f:selectItems value="#{Moocqueryresult.willyoutakeit}" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Submit"
+						action="#{panelManagedBean.submitWillTakeItMoocValue(Moocqueryresult.matchedindex)}"
+						update="messageRelevancy"></p:commandButton>
+
+
+					<p:growl id="messageRelevancy" showDetail="true" ></p:growl>
+
+
+				</h:panelGrid>
+			</p:panel>
+
+		</p:dataGrid>
+
+		<p:dialog header="Mooc Detailed Info" widgetVar="MoocDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="MoocDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty panelManagedBean.selectedMooc}"
+					columnClasses="label,value">
+
+					<h:outputText value="CourseName:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedMooc.courseTitle}" />
+
+					<h:outputText value="CourseDesc:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedMooc.courseDescription}" />
+
+					<h:outputText value="CourseSyllabus:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedMooc.courseSyllabus}" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
+		<p:dataGrid value="#{panelManagedBean.finalconcatuniv}"
+			var="Univqueryresult" id="UnivResult" columns="1" layout="grid"
+			rows="3" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="2,5,8">
+			<f:facet name="header">
+            Matched Univ Courses ( Job# - Residential#)
+        </f:facet>
+
+			<p:panel>
+				<h:panelGrid columns="3" cellpadding="2">
+					<h:outputText
+						value="Job #{Univqueryresult.coursmatchedforjob} - OnCampus #{Univqueryresult.matchedindex}" />
+					<h:outputText value=" #{Univqueryresult.courseTitle}" />
+					<p:commandLink update=":form:UnivDetail"
+						oncomplete="PF('UnivDialog').show()"
+						title="For Detailed info clcik here">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:setPropertyActionListener value="#{Univqueryresult}"
+							target="#{panelManagedBean.selectedUniv}" />
+					</p:commandLink>
+					<h:outputText value="How Relevant ?" />
+					<p:selectOneMenu
+						id="univRelevancy_#{Univqueryresult.coursmatchedforjob}_#{Univqueryresult.matchedindex}"
+						value="#{Univqueryresult.selectedValue}">
+						<f:selectItems value="#{Univqueryresult.relevancymatch}" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Submit"
+						action="#{panelManagedBean.submitUnivRelevancy(Univqueryresult.matchedindex)}"
+						update="messageRelevancy"></p:commandButton>
+
+
+					<h:outputText value="Will U Take ?" />
+					<p:selectOneMenu
+						id="univCoursWillYouTake_#{Univqueryresult.coursmatchedforjob}_#{Univqueryresult.matchedindex}"
+						value="#{Univqueryresult.willUtakejob}">
+						<f:selectItems value="#{Univqueryresult.willyoutakeit}" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Submit"
+						action="#{panelManagedBean.submitWillTakeItUnivValue(Univqueryresult.matchedindex)}"
+						update="messageRelevancy"></p:commandButton>
+
+
+					<p:growl id="messageRelevancy" showDetail="true" ></p:growl>
+
+				</h:panelGrid>
+			</p:panel>
+
+		</p:dataGrid>
+
+
+		<p:dialog header="Univ Course Offered Info" widgetVar="UnivDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="UnivDetail" style="text-align:center;">
+				
+				<p:panelGrid columns="2"
+					rendered="#{not empty panelManagedBean.selectedUniv}"
+					columnClasses="label,value">
+
+					<h:outputText value="UniversityName:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedUniv.universityName}" />
+
+
+					<h:outputText value="Department:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedUniv.department}" />
+
+
+					<h:outputText value="CourseTitle:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedUniv.courseTitle}" />
+
+
+					<h:outputText value="courseId:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedUniv.courseId}" />
+
+
+					<h:outputText value="courseDescription:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedUniv.courseDescription}" />
+
+
+					<h:outputText value="creditHours:" style="font-weight: bold" />
+					<h:outputText
+						value="#{panelManagedBean.selectedUniv.creditHours}" />
+				</p:panelGrid>	
+				
+				
+			</p:outputPanel>
+		</p:dialog>
+
+	</p:panelGrid>
+</h:form>
+</html>

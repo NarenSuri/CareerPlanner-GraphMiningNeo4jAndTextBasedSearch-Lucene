@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>CareerAdvising</title>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+
+
+
+<h:body>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:form id="form">
+		<p:separator />
+		
+		<p:outputLabel styleClass="searchQueryDisplay"
+			value="                                         Thank You!!!. For using the System."></p:outputLabel>
+		
+<p:separator />
+		<p:panelGrid columns="2" id="UserUIFinalResults" styleClass="resultpanelgrid">
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.finalResults}"
+				var="finalresultsvar" id="MoocResultJustFewWords" columns="1"
+				layout="grid" position="center" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20">
+				<f:facet name="header">
+					<h:outputText styleClass="searchQueryDisplay"
+						value=" Here is the Complete Summary of Planning that you have done for yourself..." />
+				</f:facet>
+
+				<p:panel>				
+					
+					<h:panelGrid columns="3" cellpadding="2">
+											
+						<h:outputText styleClass="moocUnivTitles"
+							value="#{finalresultsvar.courseTitle}" />
+							
+						<p:commandLink update=":form:MoocDetail"
+							oncomplete="PF('MoocDialog').show()" title="Detailed Info Here">							
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener
+								value="#{finalresultsvar}"
+								target="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}" />
+						</p:commandLink>
+						
+						<h:outputText styleClass="moocUnivTitles"
+							value="#{finalresultsvar.objType}" />
+					</h:panelGrid>				
+					
+
+				</p:panel>
+
+			</p:dataGrid>
+			<p:dialog header="Detailed Info" widgetVar="MoocDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="MoocDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate}"
+						columnClasses="label,value">
+
+						<h:outputText value="CourseName:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseTitle}" />
+
+						<h:outputText value="CourseDesc:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedMoocUnivParentTemplate.courseDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</p:panelGrid>
+		<p:separator />
+		<p:commandButton
+			actionListener="#{designVersionThreePanelManagedBean.gotohomepage()}"
+			value="Want to Search More ?" title="Go BackTo Home Page" styleClass="nextbutton"  />
+
+	</h:form>
+</h:body>
+
+</html>

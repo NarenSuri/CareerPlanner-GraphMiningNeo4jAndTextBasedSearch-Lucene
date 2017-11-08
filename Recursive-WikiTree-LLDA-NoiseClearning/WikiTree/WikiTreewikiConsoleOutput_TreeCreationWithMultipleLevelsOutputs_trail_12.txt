@@ -1,0 +1,41 @@
+This code is running on the correct version of python it supports.. 2.7
+Started the Wiki Tree Creation In Memory
+Found File Name   :  Applied_mathematics.txt
+time taken for this particular file tree creation is= 99.1789999008
+Found File Name   :  Computational_science.txt
+time taken for this particular file tree creation is= 83.0410001278
+Found File Name   :  Computer_science.txt
+time taken for this particular file tree creation is= 119.878000021
+Found File Name   :  Engineering.txt
+time taken for this particular file tree creation is= 74.4010000229
+Found File Name   :  Information_science.txt
+time taken for this particular file tree creation is= 124.013999939
+Found File Name   :  Mathematical_sciences.txt
+time taken for this particular file tree creation is= 97.5779998302
+Found File Name thats not either of the formats specified in the code
+Found File Name   :  articles.txt
+time taken for this particular file = 255.144000053
+Found File Name thats not either of the formats specified in the code
+Finished every thing, but couldnt find or assign these many articles :  100101
+ The total number of categories missed while searching the leaf categories of the tree : 27038
+ The total number of categories missed while searching entire tree to insert are : 8467
+Some Nodes are Missed because they dont have the level you asked for  0
+Traversal Completed.......
+Writing Location : C:/Users/nsuri/Desktop/IndependentStudy/Data/Category/Processed_Data/
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+Writing to the file
+Writing finished
+total time taken= 865.826999903

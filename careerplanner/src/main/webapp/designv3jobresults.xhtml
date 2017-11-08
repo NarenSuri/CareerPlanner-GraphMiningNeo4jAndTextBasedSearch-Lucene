@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>CareerAdvising</title>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+<h:body>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:form id="form">
+
+
+		<p:outputLabel styleClass="searchQueryDisplay"
+			value="query you searched For  :    "></p:outputLabel>
+		<p:inputText style="width: 65%;" required="true"
+			value="#{designVersionThreePanelManagedBean.query}">
+			<f:validateLength minimum="4" />
+		</p:inputText>
+		<p:separator />
+		<p:panelGrid columns="1" id="UserUI">
+
+			<p:dataGrid
+				value="#{designVersionThreePanelManagedBean.finaljobsresultlist}"
+				var="queryresult" id="JobResult" columns="1" layout="grid" rows="5"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,8,15">
+
+				<f:facet name="header">
+            Matched Job Info
+        </f:facet>
+
+				<p:panel>
+					<h:panelGrid columns="4" cellpadding="2">
+						<h:outputText value="Job- #{queryresult.matchedjobindex}" />
+						<h:outputText styleClass="jobTitles"
+							value="#{queryresult.jobtitle}" />
+						<h:outputText styleClass="companyName"
+							value="Company : #{queryresult.companyName}" />
+						<p:commandLink update=":form:JobDetail"
+							oncomplete="PF('jobDialog').show()" title="View Job Details">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{queryresult}"
+								target="#{designVersionThreePanelManagedBean.selectedjob}" />
+						</p:commandLink>
+
+					</h:panelGrid>
+
+					<h:outputText value="#{queryresult.jobDescriptionShort}"
+						styleClass="abc; margin:10 auto; display:block;width:500px" />
+					<p:commandButton
+						actionListener="#{designVersionThreePanelManagedBean.selectedjobforMoocUnivButton(queryresult)}"
+						value="Show Courses"
+						title="See the courses related to this job here.." />
+
+				</p:panel>
+
+			</p:dataGrid>
+
+
+			<p:dialog header="Job Detailed Info" widgetVar="jobDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+				position="top">
+				<p:outputPanel id="JobDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty designVersionThreePanelManagedBean.selectedjob}"
+						columnClasses="label,value">
+
+
+						<h:outputText value="jobtitle:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedjob.jobtitle}" />
+
+						<h:outputText value="jobDescription:" style="font-weight: bold" />
+						<h:outputText
+							value="#{designVersionThreePanelManagedBean.selectedjob.jobDescription}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

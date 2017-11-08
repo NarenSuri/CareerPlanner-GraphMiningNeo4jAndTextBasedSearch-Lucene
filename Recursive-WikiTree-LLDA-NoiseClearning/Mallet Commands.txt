@@ -1,0 +1,17 @@
+mallet import-dir --input en/ --keep-sequence --remove-stopwords --output Train.mallet
+mallet train-topics --input Train.mallet --num-topics 10 --num-iterations 100 --inferencer-filename inferencer --output-doc-topics doc-topics.txt
+mallet import-dir --input test/ --keep-sequence --remove-stopwords --output test.mallet --use-pipe-from Train.mallet
+mallet infer-topics --input test.mallet --inferencer inferencer --output-doc-topics incoming.topics1 --num-iterations 100
+
+
+
+--input C:\Users\nsuri\Desktop\Independent Study\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\WikiTopicModelInput.txt --output C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\WikiTopicModelTrainInput.seq  --label-as-features --keep-sequence --remove-stopwords --line-regex ([^\t]+)\t([^\t]+)\t(.*)
+
+--input C:\Users\nsuri\Desktop\Independent Study\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\WikiTopicModelTrainInput.seq --output-topic-keys C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\WikiTopicModel-llda.keys --inferencer-filename inferencer --output-doc-topics doc-topics.txt --num-top-words 100 --show-topics-interval 200 --num-iterations 1100 --num-topics 1000 
+
+
+--input C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\WikiTopicModelTrainInput.seq --output-topic-keys C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\WikiTopicModel-llda.keys --num-top-words 100 --show-topics-interval 200 --num-iterations 1100 --num-topics 1000 
+
+mallet import --input C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\TopicModelingTestingData\testTopicModeling.txt --keep-sequence --remove-stopwords --output C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\TopicModelingTestingData\test.mallet --use-pipe-from C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\WikiTopicModelTrainInput.seq 
+
+mallet infer-topics --input C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\TopicModelingTestingData\test.mallet --inferencer C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\inferencer --output-doc-topics C:\Users\nsuri\Desktop\IndependentStudy\Data\ProcessWikiDataForTopicModeling\v1-TopicModelingInputFiles\testResults.txt --num-iterations 100

@@ -1,0 +1,109 @@
+.red {
+	color: red;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0
+}
+
+div#NW {
+	top: 10;
+	left: 0;
+	background: orange;
+	position: fixed;
+	width: 50%;
+	height: 50%
+}
+
+div#NE {
+	top: 10;
+	left: 50%;
+	background: blue;
+	position: fixed;
+	width: 50%;
+	height: 50%
+}
+
+div#SW {
+	top: 50%;
+	left: 0;
+	background: green;
+	position: fixed;
+	width: 50%;
+	height: 50%
+}
+
+div#SE {
+	top: 50%;
+	left: 50%;
+	background: red;
+	position: fixed;
+	width: 50%;
+	height: 50%
+}
+
+.jobTitles, .moocUnivTitles {
+	color: red;
+	font-weight: bold;
+}
+
+.titles {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+	margin-left: 25%;
+}
+
+.coursestaken {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+	padding: 8px 8px;
+}
+
+.coursestakennumber {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+	font-size: 250%;
+}
+
+.careerGoalHeader {
+	color: green;
+	font-weight: bold;
+}
+
+.searchQueryDisplay {
+	color: blue;
+	font-weight: bold;
+	margin-top: 2%;
+}
+
+.companyName {
+	color: blue;
+	font-weight: bold;
+}
+
+.ui-button.nextbutton {
+	background-color: #4CAF50; /* Green */
+	border: red;
+	padding: 15px 32px;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	float: right; -webkit-transition-duration : 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	-webkit-transition-duration: 0.4s;
+}
+
+.ui-button.nextbutton:hover {
+	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+.resultpanelgrid {
+	margin-left: 25%;
+}
